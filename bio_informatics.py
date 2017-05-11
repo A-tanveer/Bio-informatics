@@ -6,7 +6,8 @@ class BioInformatics:
         self.DNA = DNA
         pass
 
-    def k_mer(self, sub_str):
+    def k_mer(self, sub_str, type='count'):
+        starting_indexes = []
         if sub_str == '':
             return 0
 
@@ -16,6 +17,9 @@ class BioInformatics:
             if self.DNA[k] == sub_str[0]:
                 if self.DNA[k:k+sub_len] == sub_str:
                     count += 1
+                    starting_indexes.append(k)
+        if type == 'index':
+            return starting_indexes
         return count
 
     def most_frequent_k_mer(self, k):
@@ -40,5 +44,9 @@ class BioInformatics:
                 result_list.append(set_gram[a])
         return result_list
 
+    def reverse_complement(self):
+        a = 'ATGCatgc'
+        b = 'TACGtacg'
+        complement = self.DNA.translate({ord(x): y for (x, y) in zip(a, b)})
+        return complement[::-1]
 
-x = BioInformatics('ACGTTGCATGTCGCATGATGCATGAGAGCT')
