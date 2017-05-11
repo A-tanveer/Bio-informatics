@@ -32,3 +32,8 @@ print(bio_informatics.hamming_distance(s1, s2))
 # BA1H http://rosalind.info/problems/ba1h/
 x.DNA = 'CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAATGCCTAGCGGCTTGTGGTTTCTCCTACGCTCC'
 print(x.approximate_matched_pattern('ATTCTGGA', 3))
+
+# BA1I http://rosalind.info/problems/ba1i/
+x.DNA = 'ACGTTGCATGTCGCATGATGCATGAGAGCT'
+print(x.most_frequent_k_mer_with_mismatch(4, 1))
+

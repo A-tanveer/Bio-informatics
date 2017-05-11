@@ -43,17 +43,24 @@ class BioInformatics:
         return count
 
     def most_frequent_k_mer(self, k):
+        result_list = []
         k_gram = ngram(self.DNA, k)
         set_gram = list(set(k_gram))
         set_count = []
         for a in set_gram:
             set_count.append(k_gram.count(a))
         m = max(set_count)
-        result_list = []
         for a in range(len(set_count)):
             if set_count[a] == m:
                 result_list.append(set_gram[a])
         return result_list
+
+    def most_frequent_k_mer_with_mismatch(self, k, max_mismatch):
+        most_frequent_words_with_mismatch = []
+        k_mers = list(set(ngram(self.DNA, k)))
+        frequency_counts = [len(self.approximate_matched_pattern(gram, max_mismatch)) for gram in k_mers]
+        m = max(frequency_counts)
+        return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
 
     def reverse_complement(self):
         a = 'ATGCatgc'
