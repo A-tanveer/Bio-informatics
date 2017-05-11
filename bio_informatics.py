@@ -1,15 +1,21 @@
-class BioInformatics:
+def hamming_distance(a, b):
+    if not len(a) == len(b):
+        raise ValueError('Strings must be same in size to compute hamming distance')
+    return sum(i != j for i, j in zip(a, b))
 
+
+def ngram(string_to_gram, n):
+    n_gram = []
+    for i in range(len(string_to_gram) - n + 1):
+        n_gram.append(string_to_gram[i:i + n])
+    return n_gram
+
+
+class BioInformatics:
     DNA = ''
 
     def __init__(self, DNA):
         self.DNA = DNA
-
-    def ngram(self, string_to_gram, n):
-        n_gram = []
-        for i in range(len(string_to_gram) - n + 1):
-            n_gram.append(self.DNA[i:i + n])
-        return n_gram
 
     def skew(self):
         temp = 0
@@ -29,7 +35,7 @@ class BioInformatics:
         str_len, sub_len, start, count = len(self.DNA), len(sub_str), sub_str[0], 0
         for k in range(str_len - sub_len + 1):
             if self.DNA[k] == sub_str[0]:
-                if self.DNA[k:k+sub_len] == sub_str:
+                if self.DNA[k:k + sub_len] == sub_str:
                     count += 1
                     starting_indexes.append(k)
         if type == 'index':
@@ -37,7 +43,7 @@ class BioInformatics:
         return count
 
     def most_frequent_k_mer(self, k):
-        k_gram = self.ngram(self.DNA, k)
+        k_gram = ngram(self.DNA, k)
         set_gram = list(set(k_gram))
         set_count = []
         for a in set_gram:
@@ -57,11 +63,11 @@ class BioInformatics:
 
     def LT_clump(self, k, L, t):
         clumps = []
-        k_mers = list(set(self.ngram(self.DNA, k)))
+        k_mers = list(set(ngram(self.DNA, k)))
         for each in k_mers:
             for i in range(len(self.DNA) - L + 1):
                 if self.DNA[i] == each[0]:
-                    object1.DNA = self.DNA[i:i+L]
+                    object1.DNA = self.DNA[i:i + L]
                     if object1.k_mer(each) >= t:
                         clumps.append(each)
                         break
@@ -75,5 +81,6 @@ class BioInformatics:
             if skew[i] == m:
                 min_skew.append(i)
         return min_skew
+
 
 object1 = BioInformatics('')
