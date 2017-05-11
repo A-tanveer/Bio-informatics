@@ -82,5 +82,12 @@ class BioInformatics:
                 min_skew.append(i)
         return min_skew
 
+    def approximate_matched_pattern(self, pattern, max_mismatch):
+        starting_indexes = []
+        k_gram = ngram(self.DNA, len(pattern))
+        for i in range(len(k_gram)):
+            if hamming_distance(k_gram[i], pattern) <= max_mismatch:
+                starting_indexes.append(i)
+        return starting_indexes
 
 object1 = BioInformatics('')
