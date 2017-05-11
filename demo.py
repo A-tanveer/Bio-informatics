@@ -50,3 +50,6 @@ print(x.dna2num('AGT'))
 # BA1M http://rosalind.info/problems/ba1m/
 print(x.num2dna(5353))
 print(x.num2dna(5353, length=7))
+
+# BA1N http://rosalind.info/problems/ba1n/
+print(bio_informatics.d_neighbourhood('GGCCCAGAG', 3))

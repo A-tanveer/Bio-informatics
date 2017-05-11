@@ -17,6 +17,11 @@ def all_possible_kmers(k):
     return [''.join(i) for i in product(alpha, repeat=k)]
 
 
+def d_neighbourhood(pattern, max_mismatch):
+    k_gram = all_possible_kmers(len(pattern))
+    return [i for i in k_gram if hamming_distance(i, pattern) <= max_mismatch]
+
+
 class BioInformatics:
     DNA = ''
 
@@ -134,5 +139,6 @@ class BioInformatics:
             if skew[i] == m:
                 min_skew.append(i)
         return min_skew
+
 
 object1 = BioInformatics('')
