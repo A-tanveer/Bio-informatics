@@ -17,18 +17,8 @@ class BioInformatics:
     def __init__(self, DNA):
         self.DNA = DNA
 
-    def skew(self):
-        temp = 0
-        skew = [0]
-        for i in self.DNA:
-            if i == 'C' or i == 'c':
-                temp -= 1
-            elif i == 'g' or i == 'G':
-                temp += 1
-            skew.append(temp)
-        return skew
-
     def k_mer(self, sub_str, type='count'):
+        # can easily be done by using ngram
         starting_indexes = []
         if sub_str == '':
             return 0
@@ -41,6 +31,14 @@ class BioInformatics:
         if type == 'index':
             return starting_indexes
         return count
+
+    def reverse_complement(self, dna=None):
+        if dna is None:
+            dna = self.DNA
+        a = 'ATGCatgc'
+        b = 'TACGtacg'
+        complement = dna.translate({ord(x): y for (x, y) in zip(a, b)})
+        return complement[::-1]
 
     def most_frequent_k_mer(self, k):
         result_list = []
@@ -55,18 +53,23 @@ class BioInformatics:
                 result_list.append(set_gram[a])
         return result_list
 
+    def approximate_matched_pattern(self, pattern, max_mismatch):
+        k_gram = ngram(self.DNA, len(pattern))
+        return [i for i in range(len(k_gram)) if hamming_distance(k_gram[i], pattern) <= max_mismatch]
+
     def most_frequent_k_mer_with_mismatch(self, k, max_mismatch):
-        most_frequent_words_with_mismatch = []
         k_mers = list(set(ngram(self.DNA, k)))
         frequency_counts = [len(self.approximate_matched_pattern(gram, max_mismatch)) for gram in k_mers]
         m = max(frequency_counts)
         return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
 
-    def reverse_complement(self):
-        a = 'ATGCatgc'
-        b = 'TACGtacg'
-        complement = self.DNA.translate({ord(x): y for (x, y) in zip(a, b)})
-        return complement[::-1]
+    def most_frequent_k_mer_with_mismatch_and_complements(self, k, max_mismatch):
+        k_mers = list(set(ngram(self.DNA, k)))
+        frequency_counts = [(len(self.approximate_matched_pattern(gram, max_mismatch)) +
+                            len(self.approximate_matched_pattern(self.reverse_complement(dna=gram), max_mismatch)))
+                            for gram in k_mers]
+        m = max(frequency_counts)
+        return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
 
     def LT_clump(self, k, L, t):
         clumps = []
@@ -80,6 +83,17 @@ class BioInformatics:
                         break
         return clumps
 
+    def skew(self):
+        temp = 0
+        skew = [0]
+        for i in self.DNA:
+            if i == 'C' or i == 'c':
+                temp -= 1
+            elif i == 'g' or i == 'G':
+                temp += 1
+            skew.append(temp)
+        return skew
+
     def minimum_skew(self):
         skew = self.skew()
         m = min(skew)
@@ -88,13 +102,5 @@ class BioInformatics:
             if skew[i] == m:
                 min_skew.append(i)
         return min_skew
-
-    def approximate_matched_pattern(self, pattern, max_mismatch):
-        starting_indexes = []
-        k_gram = ngram(self.DNA, len(pattern))
-        for i in range(len(k_gram)):
-            if hamming_distance(k_gram[i], pattern) <= max_mismatch:
-                starting_indexes.append(i)
-        return starting_indexes
 
 object1 = BioInformatics('')

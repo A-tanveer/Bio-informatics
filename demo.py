@@ -37,3 +37,5 @@ print(x.approximate_matched_pattern('ATTCTGGA', 3))
 x.DNA = 'ACGTTGCATGTCGCATGATGCATGAGAGCT'
 print(x.most_frequent_k_mer_with_mismatch(4, 1))
 
+# BA1J http://rosalind.info/problems/ba1j/
+print(x.most_frequent_k_mer_with_mismatch_and_complements(4, 1))
