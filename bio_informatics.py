@@ -11,6 +11,12 @@ def ngram(string_to_gram, n):
     return n_gram
 
 
+def all_possible_kmers(k):
+    from itertools import product
+    alpha = ['A', 'C', 'G', 'T']
+    return [''.join(i) for i in product(alpha, repeat=k)]
+
+
 class BioInformatics:
     DNA = ''
 
@@ -70,6 +76,13 @@ class BioInformatics:
                             for gram in k_mers]
         m = max(frequency_counts)
         return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
+
+    def frequency_array(self, k, dna=None):
+        if dna is None:
+            dna = self.DNA
+        kmers = all_possible_kmers(k)
+        return [self.k_mer(kmer) for kmer in kmers]
+
 
     def LT_clump(self, k, L, t):
         clumps = []

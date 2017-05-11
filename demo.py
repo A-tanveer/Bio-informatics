@@ -35,7 +35,11 @@ print(x.approximate_matched_pattern('ATTCTGGA', 3))
 
 # BA1I http://rosalind.info/problems/ba1i/
 x.DNA = 'ACGTTGCATGTCGCATGATGCATGAGAGCT'
-print(x.most_frequent_k_mer_with_mismatch(4, 1))
+print(x.most_frequent_k_mer_with_mismatch(4, 1))   # some output doesn't match. can't find the problem
 
 # BA1J http://rosalind.info/problems/ba1j/
-print(x.most_frequent_k_mer_with_mismatch_and_complements(4, 1))
+print(x.most_frequent_k_mer_with_mismatch_and_complements(4, 1))  # some output doesn't match. can't find the problem
+
+# BA1J http://rosalind.info/problems/ba1j/
+x.DNA = 'ACGCGGCTCTGAAA'
+print(x.frequency_array(2))
