@@ -11,6 +11,17 @@ class BioInformatics:
             n_gram.append(self.DNA[i:i + n])
         return n_gram
 
+    def skew(self):
+        temp = 0
+        skew = [0]
+        for i in self.DNA:
+            if i == 'C' or i == 'c':
+                temp -= 1
+            elif i == 'g' or i == 'G':
+                temp += 1
+            skew.append(temp)
+        return skew
+
     def k_mer(self, sub_str, type='count'):
         starting_indexes = []
         if sub_str == '':
@@ -56,5 +67,13 @@ class BioInformatics:
                         break
         return clumps
 
+    def minimum_skew(self):
+        skew = self.skew()
+        m = min(skew)
+        min_skew = []
+        for i in range(len(skew)):
+            if skew[i] == m:
+                min_skew.append(i)
+        return min_skew
 
 object1 = BioInformatics('')

@@ -1,6 +1,5 @@
 import bio_informatics
 
-# demo
 x = bio_informatics.BioInformatics('ACAACTATGCATACTATCGGGAACTATCCT')
 
 #BA1A http://rosalind.info/problems/ba1a/
@@ -19,3 +18,9 @@ print(x.k_mer('ATAT', type='index'))
 # BA1E http://rosalind.info/problems/ba1e/
 x.DNA = 'CGGACTCGACAGATGTGAAGAAATGTGAAGACTGAGTGAAGAGAAGAGGAAACACGACACGACATTGCGACATAATGTACGAATGTAATGTGCCTATGGC'
 print(x.LT_clump(5, 75, 4))
+
+# BA1F http://rosalind.info/problems/ba1f/
+x.DNA = 'CCTATCGGTGGATTAGCATGTCCCTGTACGTTTCGCCGCGAACTAGTTCACACGGCTTGATGGCAAATGGTTTTTCCGGCGACCGTAATCGTCCACCGAG'
+print(x.minimum_skew())
+
+# BA1G http://rosalind.info/problems/ba1g/
