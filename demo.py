@@ -40,6 +40,13 @@ print(x.most_frequent_k_mer_with_mismatch(4, 1))   # some output doesn't match. 
 # BA1J http://rosalind.info/problems/ba1j/
 print(x.most_frequent_k_mer_with_mismatch_and_complements(4, 1))  # some output doesn't match. can't find the problem
 
-# BA1J http://rosalind.info/problems/ba1j/
+# BA1K http://rosalind.info/problems/ba1k/
 x.DNA = 'ACGCGGCTCTGAAA'
 print(x.frequency_array(2))
+
+# BA1l http://rosalind.info/problems/ba1l/
+print(x.dna2num('AGT'))
+
+# BA1M http://rosalind.info/problems/ba1m/
+print(x.num2dna(5353))
+print(x.num2dna(5353, length=7))

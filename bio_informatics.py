@@ -83,6 +83,25 @@ class BioInformatics:
         kmers = all_possible_kmers(k)
         return [self.k_mer(kmer) for kmer in kmers]
 
+    def num2dna(self, number, length=None):
+        _alphabet = 'ACGT'
+        _base = len(_alphabet)
+        string = ''
+        while number > 0:
+            string = _alphabet[number % _base] + string
+            number //= _base
+        if not length is None:
+            while len(string) < length:
+                string = 'A' + string
+        return string
+
+    def dna2num(self, string):
+        _alphabet = 'ACGT'
+        _base = len(_alphabet)
+        number = 0
+        for char in string:
+            number = number * _base + _alphabet.index(char)
+        return number
 
     def LT_clump(self, k, L, t):
         clumps = []
