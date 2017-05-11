@@ -15,3 +15,7 @@ print(x.reverse_complement())
 # BA1D http://rosalind.info/problems/ba1d/
 x.DNA = 'GATATATGCATATACTT'
 print(x.k_mer('ATAT', type='index'))
+
+# BA1E http://rosalind.info/problems/ba1e/
+x.DNA = 'CGGACTCGACAGATGTGAAGAAATGTGAAGACTGAGTGAAGAGAAGAGGAAACACGACACGACATTGCGACATAATGTACGAATGTAATGTGCCTATGGC'
+print(x.LT_clump(5, 75, 4))
