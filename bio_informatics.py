@@ -4,6 +4,19 @@ from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram
 class BioInformatics:
     DNA = ''
 
+    def implanted_motifs(self, dna, k, d):
+        kmers = all_possible_kmers(k)
+        result = []
+        for each in kmers:
+            val = True
+            for str in dna:
+                if len(self.approximate_matched_pattern(each, d, str)) < 1:
+                    val = False
+                    break
+            if val:
+                result.append(each)
+        return result
+
     def __init__(self, DNA):
         self.DNA = DNA
 
@@ -43,8 +56,10 @@ class BioInformatics:
                 result_list.append(set_gram[a])
         return result_list
 
-    def approximate_matched_pattern(self, pattern, max_mismatch):
-        k_gram = ngram(self.DNA, len(pattern))
+    def approximate_matched_pattern(self, pattern, max_mismatch, dna=None):
+        if dna is None:
+            dna = self.DNA
+        k_gram = ngram(dna, len(pattern))
         return [i for i in range(len(k_gram)) if hamming_distance(k_gram[i], pattern) <= max_mismatch]
 
     def most_frequent_k_mer_with_mismatch(self, k, max_mismatch):

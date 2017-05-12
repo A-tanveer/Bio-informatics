@@ -1,3 +1,4 @@
+from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram
 import bio_informatics
 
 x = bio_informatics.BioInformatics('')
@@ -66,4 +67,4 @@ print(x.num2dna(5353, length=7))
 
 # BA1N
 # http://rosalind.info/problems/ba1n/
-print(bio_informatics.d_neighbourhood('GGCCCAGAG', 3))
+print(d_neighbourhood('GGCCCAGAG', 3))
