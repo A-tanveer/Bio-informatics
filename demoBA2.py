@@ -1,4 +1,4 @@
-from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram
+from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram, median
 import bio_informatics
 
 x = bio_informatics.BioInformatics('')
@@ -7,3 +7,17 @@ x = bio_informatics.BioInformatics('')
 # http://rosalind.info/problems/ba2a/
 dnaStr = ['ATTTGGC', 'TGCCTTA', 'CGGTATC', 'GAAAATT']
 print(x.implanted_motifs(dnaStr, 3, 1))
+
+# BA2B
+# http://rosalind.info/problems/ba2b/
+dnaStr = ['TGATGATAACGTGACGGGACTCAGCGGCGATGAAGGATGAGT',
+          'CAGCGACAGACAATTTCAATAATATCCGCGGTAAGCGGCGTA',
+          'TGCAGAGGTTGGTAACGCCGGCGACTCGGAGAGCTTTTCGCT',
+          'TTTGTCATGAACTCAGATACCATAGAGCACCGGCGAGACTCA',
+          'ACTGGGACTTCACATTAGGTTGAACCGCGAGCCAGGTGGGTG',
+          'TTGCGGACGGGATACTCAATAACTAAGGTAGTTCAGCTGCGA',
+          'TGGGAGGACACACATTTTCTTACCTCTTCCCAGCGAGATGGC',
+          'GAAAAAACCTATAAAGTCCACTCTTTGCGGCGGCGAGCCATA',
+          'CCACGTCCGTTACTCCGTCGCCGTCAGCGATAATGGGATGAG',
+          'CCAAAGCTGCGAAATAACCATACTCTGCTCAGGAGCCCGATG']
+print(median(dnaStr, 6))

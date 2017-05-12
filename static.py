@@ -20,3 +20,19 @@ def all_possible_kmers(k):
 def d_neighbourhood(pattern, max_mismatch):
     k_gram = all_possible_kmers(len(pattern))
     return [i for i in k_gram if hamming_distance(i, pattern) <= max_mismatch]
+
+
+def median(dna, k):
+    kmers = all_possible_kmers(k)
+    count_distance = []
+    for x in kmers:
+        count = 0
+        for str in dna:
+            gram = ngram(str, k)
+            distance = []
+            for each in gram:
+                distance.append(hamming_distance(x, each))
+            count += min(distance)
+        count_distance.append(count)
+    m = min(count_distance)
+    return [i for i,j in zip(kmers, count_distance) if j == m]

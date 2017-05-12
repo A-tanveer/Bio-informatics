@@ -1,8 +1,11 @@
-from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram
+from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram, median
 
 
 class BioInformatics:
     DNA = ''
+
+    def __init__(self, DNA):
+        self.DNA = DNA
 
     def implanted_motifs(self, dna, k, d):
         kmers = all_possible_kmers(k)
@@ -16,9 +19,6 @@ class BioInformatics:
             if val:
                 result.append(each)
         return result
-
-    def __init__(self, DNA):
-        self.DNA = DNA
 
     def k_mer(self, sub_str, type='count'):
         # can easily be done by using ngram
