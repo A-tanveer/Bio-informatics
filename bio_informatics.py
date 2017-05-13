@@ -20,6 +20,35 @@ class BioInformatics:
                 result.append(each)
         return result
 
+    def profile_most_probable_kmer(self, profile, dna=None):
+        if dna is None:
+            dna = self.DNA
+        if True in [0 in pro for pro in profile]:
+            print('profile contains 0. changing it...')
+            for i in range(4):
+                for j in range(len(profile[i])):
+                    profile[i][j] += 0.2
+        kmers = ngram(dna, len(profile[0]))
+        pro = []
+        for i in range(len(kmers)):
+            b = list(kmers[i])
+            x = 1
+            for j in range(len(b)):
+                latter = b[j]
+                if latter == 'A':
+                    x *= profile[0][j]
+                if latter == 'C':
+                    x *= profile[1][j]
+                if latter == 'G':
+                    x *= profile[2][j]
+                if latter == 'T':
+                    x *= profile[3][j]
+            pro.append(x)
+        result = []
+        m = max(pro)
+
+        return kmers[pro.index(max(pro))]
+
     def k_mer(self, sub_str, type='count'):
         # can easily be done by using ngram
         starting_indexes = []

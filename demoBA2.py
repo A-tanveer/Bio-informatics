@@ -20,4 +20,15 @@ dnaStr = ['TGATGATAACGTGACGGGACTCAGCGGCGATGAAGGATGAGT',
           'GAAAAAACCTATAAAGTCCACTCTTTGCGGCGGCGAGCCATA',
           'CCACGTCCGTTACTCCGTCGCCGTCAGCGATAATGGGATGAG',
           'CCAAAGCTGCGAAATAACCATACTCTGCTCAGGAGCCCGATG']
-print(median(dnaStr, 6))
+# print(median(dnaStr, 6))
+
+# BA2C
+# http://rosalind.info/problems/ba2c/
+x.DNA = 'ACCTGTTTATTGCCTAAGTTCCGAACAAACCCAATATAGCCCGAGGGCCT'
+profile = [
+    [0.2, 0.2, 0.3, 0.2, 0.3],
+    [0.4, 0.3, 0.1, 0.5, 0.1],
+    [0.3, 0.3, 0.5, 0.2, 0.4],
+    [0.1, 0.2, 0.1, 0.1, 0.2]
+]
+print(x.profile_most_probable_kmer(profile))
