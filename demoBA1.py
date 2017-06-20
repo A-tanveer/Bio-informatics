@@ -1,12 +1,12 @@
-from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram
+from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram, random_dna, dna2num, num2dna
 import bio_informatics
 
-x = bio_informatics.BioInformatics('')
+x = bio_informatics.BioInformatics(dna=random_dna(100))
 
 #BA1A
 # http://rosalind.info/problems/ba1a/
 x.DNA = 'ACAACTATGCATACTATCGGGAACTATCCT'
-print(x.k_mer('ACTAT')) # = 3 k-mers
+print(x.count_k_mer('ACTAT'))  # = 3 k-mers
 
 # BA1B
 # http://rosalind.info/problems/ba1b/
@@ -19,12 +19,12 @@ print(x.reverse_complement())
 # BA1D
 # http://rosalind.info/problems/ba1d/
 x.DNA = 'GATATATGCATATACTT'
-print(x.k_mer('ATAT', type='index'))
+print(x.count_k_mer('ATAT', type='index'))
 
 # BA1E
 # http://rosalind.info/problems/ba1e/
 x.DNA = 'CGGACTCGACAGATGTGAAGAAATGTGAAGACTGAGTGAAGAGAAGAGGAAACACGACACGACATTGCGACATAATGTACGAATGTAATGTGCCTATGGC'
-print(x.LT_clump(5, 75, 4))
+print(x.lt_clump(5, 75, 4))
 
 # BA1F
 # http://rosalind.info/problems/ba1f/
@@ -58,12 +58,12 @@ print(x.frequency_array(2))
 
 # BA1l
 # http://rosalind.info/problems/ba1l/
-print(x.dna2num('AGT'))
+print(dna2num('AGT'))
 
 # BA1M
 # http://rosalind.info/problems/ba1m/
-print(x.num2dna(5353))
-print(x.num2dna(5353, length=7))
+print(num2dna(5353))
+print(num2dna(5353, length=7))
 
 # BA1N
 # http://rosalind.info/problems/ba1n/

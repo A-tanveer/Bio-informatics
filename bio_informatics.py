@@ -1,19 +1,27 @@
-from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram, median
+from static import d_neighbourhood, all_possible_kmers, hamming_distance, ngram, median, random_dna
 
 
 class BioInformatics:
-    DNA = ''
+    """@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    An approach to build a python library for bio informatics that covers the problems in Rosalind.info
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"""
 
-    def __init__(self, DNA):
-        self.DNA = DNA
+    def __init__(self, dna=''):
+        """
+        :param dna: initialize the DNA sequence
+        """
+        self.DNA = dna
 
-    def implanted_motifs(self, dna, k, d):
+    def implanted_motifs(self, dna_list, k, d):
+        """takes a list of DNAs, length of kmers k, and maximum number of mismatch d
+        :returns a list of implanted motifs"""
+
         kmers = all_possible_kmers(k)
         result = []
         for each in kmers:
             val = True
-            for str in dna:
-                if len(self.approximate_matched_pattern(each, d, str)) < 1:
+            for dna in dna_list:
+                if len(self.approximate_matched_pattern(each, d, dna)) < 1:
                     val = False
                     break
             if val:
@@ -21,14 +29,19 @@ class BioInformatics:
         return result
 
     def profile_most_probable_kmer(self, profile, dna=None):
+        """takes a profile matrix. validate it, removes 0 error.
+        :returns profile most probable kmer."""
+
         if dna is None:
             dna = self.DNA
+
         if True in [0 in pro for pro in profile]:
             print('profile contains 0. changing it...')
             for i in range(4):
                 for j in range(len(profile[i])):
                     profile[i][j] += 0.2
-        kmers = ngram(dna, len(profile[0]))
+
+        kmers = ngram(dna.upper(), len(profile[0]))
         pro = []
         for i in range(len(kmers)):
             b = list(kmers[i])
@@ -44,20 +57,34 @@ class BioInformatics:
                 if latter == 'T':
                     x *= profile[3][j]
             pro.append(x)
-        result = []
-        m = max(pro)
-
         return kmers[pro.index(max(pro))]
 
-    def k_mer(self, sub_str, type='count'):
+    def count_k_mer(self, sub_str, type='count', dna=None):
+        """:returns the total number of occurrences of a kmer(sub_str) in the DNA string if type is count.
+        :returns a list of starting indexes of the occurrences if type is index. """
+
+        if dna is None:
+            dna = self.DNA
+
         # can easily be done by using ngram
+        # alternative simple implementation
+        # count, starting_indexes = 0, []
+        # kmers = ngram(dna, len(sub_str))
+        # for i, j in enumerate(kmers):
+        #     if j == sub_str:
+        #         count += 1
+        #         starting_indexes.append(i)
+        # if type == 'index':
+        #     return starting_indexes
+        # return count
+
         starting_indexes = []
         if sub_str == '':
             return 0
-        str_len, sub_len, start, count = len(self.DNA), len(sub_str), sub_str[0], 0
+        str_len, sub_len, start, count = len(dna), len(sub_str), sub_str[0], 0
         for k in range(str_len - sub_len + 1):
-            if self.DNA[k] == sub_str[0]:
-                if self.DNA[k:k + sub_len] == sub_str:
+            if dna[k] == sub_str[0]:
+                if dna[k:k + sub_len] == sub_str:
                     count += 1
                     starting_indexes.append(k)
         if type == 'index':
@@ -65,6 +92,8 @@ class BioInformatics:
         return count
 
     def reverse_complement(self, dna=None):
+        """:returns reverse complement of a DNA sequence"""
+
         if dna is None:
             dna = self.DNA
         a = 'ATGCatgc'
@@ -73,6 +102,7 @@ class BioInformatics:
         return complement[::-1]
 
     def most_frequent_k_mer(self, k):
+        """:returns the list of most frequent kmers in a DNA sequence."""
         result_list = []
         k_gram = ngram(self.DNA, k)
         set_gram = list(set(k_gram))
@@ -86,82 +116,81 @@ class BioInformatics:
         return result_list
 
     def approximate_matched_pattern(self, pattern, max_mismatch, dna=None):
+        """:returns a list of starting indexes of approximate matched patterns"""
+
         if dna is None:
             dna = self.DNA
         k_gram = ngram(dna, len(pattern))
-        return [i for i in range(len(k_gram)) if hamming_distance(k_gram[i], pattern) <= max_mismatch]
+        return [i for i, j in enumerate(k_gram) if hamming_distance(j, pattern) <= max_mismatch]
 
     def most_frequent_k_mer_with_mismatch(self, k, max_mismatch):
+        """:returns the list of most frequent kmers of length k in
+        a DNA sequence allowing maximum mismatch of max_mismatch"""
+
         k_mers = list(set(ngram(self.DNA, k)))
         frequency_counts = [len(self.approximate_matched_pattern(gram, max_mismatch)) for gram in k_mers]
         m = max(frequency_counts)
         return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
 
     def most_frequent_k_mer_with_mismatch_and_complements(self, k, max_mismatch):
+        """:returns the list of most frequent kmers of length k in a DNA sequence allowing
+        maximum mismatch of max_mismatch also including occurrences of there reverse compliments"""
+
         k_mers = list(set(ngram(self.DNA, k)))
         frequency_counts = [(len(self.approximate_matched_pattern(gram, max_mismatch)) +
-                            len(self.approximate_matched_pattern(self.reverse_complement(dna=gram), max_mismatch)))
-                            for gram in k_mers]
+                             len(self.approximate_matched_pattern(self.reverse_complement(
+                                 dna=gram), max_mismatch))) for gram in k_mers]
         m = max(frequency_counts)
         return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
 
     def frequency_array(self, k, dna=None):
+        """:returns frequency array of kmers of length k in DNA sequence"""
         if dna is None:
             dna = self.DNA
         kmers = all_possible_kmers(k)
-        return [self.k_mer(kmer) for kmer in kmers]
+        return [self.count_k_mer(kmer) for kmer in kmers]
 
-    def num2dna(self, number, length=None):
-        _alphabet = 'ACGT'
-        _base = len(_alphabet)
-        string = ''
-        while number > 0:
-            string = _alphabet[number % _base] + string
-            number //= _base
-        if not length is None:
-            while len(string) < length:
-                string = 'A' + string
-        return string
-
-    def dna2num(self, string):
-        _alphabet = 'ACGT'
-        _base = len(_alphabet)
-        number = 0
-        for char in string:
-            number = number * _base + _alphabet.index(char)
-        return number
-
-    def LT_clump(self, k, L, t):
+    def lt_clump(self, k, l, t, dna=None):
+        """
+        :param k: length of kmers
+        :param l: length L
+        :param t:minimum number of kmers in L
+        :param dna: optional DNA sequence
+        :return: list of kmers for which L-t clump is present in the dna sequence.
+        """
+        if dna is None:
+            dna = self.DNA
         clumps = []
-        k_mers = list(set(ngram(self.DNA, k)))
+        k_mers = list(set(ngram(dna, k)))
         for each in k_mers:
-            for i in range(len(self.DNA) - L + 1):
-                if self.DNA[i] == each[0]:
-                    object1.DNA = self.DNA[i:i + L]
-                    if object1.k_mer(each) >= t:
+            for i in range(len(dna) - l + 1):
+                if dna[i] == each[0]:
+                    if self.count_k_mer(each, dna=dna[i:i + l]) >= t:
                         clumps.append(each)
-                        break
+                        break  # if present no need to check further for a kmer
         return clumps
 
-    def skew(self):
-        temp = 0
+    def skew(self, dna=None):
+        """:returns: Y values of skew graph for dna sequence"""
+        if dna is None:
+            dna = self.DNA
+        value = 0
         skew = [0]
-        for i in self.DNA:
+        for i in dna:
             if i == 'C' or i == 'c':
-                temp -= 1
+                value -= 1
             elif i == 'g' or i == 'G':
-                temp += 1
-            skew.append(temp)
+                value += 1
+            skew.append(value)
         return skew
 
-    def minimum_skew(self):
-        skew = self.skew()
-        m = min(skew)
+    def minimum_skew(self, dna=None):
+        """:returns X values of skew graph where Y is minimum"""
+        if dna is None:
+            dna = self.DNA
+        skew = self.skew(dna)
         min_skew = []
-        for i in range(len(skew)):
-            if skew[i] == m:
+        for i, j in enumerate(skew):
+            if j == min(skew):
                 min_skew.append(i)
         return min_skew
-
-
-object1 = BioInformatics('')

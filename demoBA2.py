@@ -32,3 +32,6 @@ profile = [
     [0.1, 0.2, 0.1, 0.1, 0.2]
 ]
 print(x.profile_most_probable_kmer(profile))
+
+# BA2D
+# http://rosalind.info/problems/ba2d/
