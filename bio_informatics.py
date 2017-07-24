@@ -128,6 +128,13 @@ class BioInformatics:
         m = max(frequency_counts)
         return [k_mers[i] for i in range(len(frequency_counts)) if frequency_counts[i] == m]
 
+    def frequency_array(self, k, dna=None):
+        """:returns frequency array of kmers of length k in DNA sequence"""
+        if dna is None:
+            dna = self.DNA
+        kmers = all_possible_kmers(k)
+        return [self.count_k_mer(kmer) for kmer in kmers]
+
     def implanted_motifs(self, dna_list, k, d):
         """takes a list of DNAs, length of kmers k, and maximum number of mismatch d
         :returns a list of implanted motifs"""
@@ -174,13 +181,6 @@ class BioInformatics:
                     x *= profile[3][j]
             pro.append(x)
         return kmers[pro.index(max(pro))]
-
-    def frequency_array(self, k, dna=None):
-        """:returns frequency array of kmers of length k in DNA sequence"""
-        if dna is None:
-            dna = self.DNA
-        kmers = all_possible_kmers(k)
-        return [self.count_k_mer(kmer) for kmer in kmers]
 
     def make_profile(self, motifs):
         if len(motifs) < 1:

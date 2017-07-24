@@ -1,3 +1,4 @@
+# static methods for bio informatics
 
 
 def hamming_distance(a, b):
@@ -118,8 +119,6 @@ def min_coins_num(amount, coins):
 
     print(num_list[-1])
     return num_list[-1]
-
-
 
 
 def longest_com_subseq(s1, s2):
