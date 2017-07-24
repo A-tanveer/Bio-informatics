@@ -149,6 +149,24 @@ def longest_com_subseq(s1, s2):
     return sub_seq
 
 
+def make_profile(motifs):
+    if len(motifs) < 1:
+        raise ValueError('No Motifs Found!')
+    alpha = ['A', 'C', 'G', 'T']
+    profile = []
+    t = len(motifs)
+    k = len(motifs[0])
+    for char in alpha:
+        pro = [(sum(j[i].upper() == char for j in motifs) / t) for i in range(k)]
+        profile.append(pro)
+    if True in [0 in pro for pro in profile]:
+        print('profile contains 0. changing it...')
+        for i in range(4):
+            for j in range(len(profile[i])):
+                profile[i][j] += 0.2
+    return profile
+
+
 if __name__ == '__main__':
     # n, coins = read_data('in.txt')
     # min_coins_num(40, [1,5,10,20,25,50])

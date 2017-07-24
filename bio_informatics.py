@@ -182,28 +182,6 @@ class BioInformatics:
             pro.append(x)
         return kmers[pro.index(max(pro))]
 
-    def make_profile(self, motifs):
-        if len(motifs) < 1:
-            raise ValueError('No Motifs Found!')
-        alpha = ['A', 'C', 'G', 'T']
-        profile = []
-        t = len(motifs)
-        k = len(motifs[0])
-        for char in alpha:
-            # for i in range(k):
-            pro = [(sum(j[i].upper() == char for j in motifs) / t) for i in range(k)]
-                # for j in motifs:
-                #     pro.append(sum(j[i].upper() == c for j in motifs))
-            profile.append(pro)
-
-        if True in [0 in pro for pro in profile]:
-            print('profile contains 0. changing it...')
-            for i in range(4):
-                for j in range(len(profile[i])):
-                    profile[i][j] += 0.2
-
-        return profile
-
     def greedy_motif_seach(self, k, t, dna=None):
         """
         NOT COMPLETE
